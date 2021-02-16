@@ -1,7 +1,7 @@
 ## Inbar's To-Do List
 - gitHub Pages:
-  - ReadMe: https://inbar-weinberg.github.io/pre-course-2021-final-boilerplate/
-  - Index: https://inbar-weinberg.github.io/pre-course-2021-final-boilerplate/src
+  - ReadMe: https://inbar-weinberg.github.io/pre-course-2021-final/
+  - Index: https://inbar-weinberg.github.io/pre-course-2021-final/src
 - Special features unique to this app:
   1. Uses JsonBin to load and upload all content.
   2. Priority drop down menu was completely redesigned, using CSS and JavaScript (maybe the most challenging part of this task).
