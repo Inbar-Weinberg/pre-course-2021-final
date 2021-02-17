@@ -42,6 +42,22 @@ app.put("/b/:id", (req, res) => {
     else
         res.status(400).json({ msg: `No tasks with the ID of ${req.params.id}` });
 });
+// delete task
+app.delete("/b/:id", (req, res) => {
+    const reqId = parseInt(req.params.id);
+    const compareId = task => task.id === reqId;
+    const foundId = tasks.some(compareId);
+    if (foundId) {
+        res.json({
+            msg: 'task deleted',
+            tasks: tasks.filter(task => task.id !== reqId)
+        });
+    }
+    res.status(400).json({ msg: `No tasks with the ID of ${req.params.id}` });
+});
+
+
+// delete task
 
 
 
