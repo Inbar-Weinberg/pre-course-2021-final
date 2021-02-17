@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "this is the back end for TodoList app",
+  "main": "api.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Inbar-Weinberg/pre-course-2021-final/tree/NodeJs-task"
+  },
+  "author": "Inbar Weinberg",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
