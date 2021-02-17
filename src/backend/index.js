@@ -1,9 +1,12 @@
 const express = require('express');
 
 const app = express();
-const PORT = 3000;
+const POST=5000;
 
-app.get("/b.json")
+app.get("/b.json", (req, res) => {
+    res.send('Hello');    
+    
+});
 
 
-app.listen(PORT,()=>console.log('hello'));
+app.listen(POST, () => console.log('hello'));
