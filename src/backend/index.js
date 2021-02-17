@@ -10,7 +10,7 @@ app.get("/b", (req, res) => {
 
 // get single task by ID
 app.get("/b/:id", (req, res) => {
-    let compareId = tasks => tasks.id === parseInt(req.params.id);
+    let compareId = task => task.id === parseInt(req.params.id);
     const foundId = tasks.some(compareId);
     if (foundId)
         res.json(tasks.filter(compareId));
@@ -27,10 +27,18 @@ app.post("/b", (req, res) => {
 
 // update task
 app.put("/b/:id", (req, res) => {
-    let compareId = tasks => tasks.id === parseInt(req.params.id);
+    const reqId = parseInt(req.params.id);
+    const compareId = task => task.id === reqId;
     const foundId = tasks.some(compareId);
-    if (foundId)
-        res.json(tasks.filter(compareId));
+    if (foundId) {
+        tasks.forEach(task => {
+            if (compareId(task)) {
+                task.text = req.body.text;
+                task.priority = req.body.priority;
+            }
+        });
+        res.json(tasks);
+    }
     else
         res.status(400).json({ msg: `No tasks with the ID of ${req.params.id}` });
 });
