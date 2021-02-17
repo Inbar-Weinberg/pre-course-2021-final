@@ -1,12 +1,11 @@
 const express = require('express');
-
 const app = express();
-const POST=5000;
+const PORT=5000;
+const tasks = require("./b");
 
-app.get("/b.json", (req, res) => {
-    res.send('Hello');    
-    
+app.get("/", (req, res) => {
+    res.json(tasks);      
 });
 
 
-app.listen(POST, () => console.log('hello'));
+app.listen(PORT);
