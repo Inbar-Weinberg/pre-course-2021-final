@@ -18,8 +18,11 @@ app.get("/b/:id", (req, res) => {
         res.status(400).json({ msg: `No tasks with the ID of ${req.params.id}` });
 });
 // create and add a new task
+app.use(express.json());
+
 app.post("/b", (req, res) => {
-    res.send(red.body);
+    tasks.push(req.body);
+    res.json(tasks);
 });
 
 
