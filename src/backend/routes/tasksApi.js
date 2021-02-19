@@ -1,31 +1,24 @@
 const express = require("express");
 const fs = require("fs");
 const taskRouter = express.Router();
-
 taskRouter.use(express.json());
 
-//
-app = express();
-const PORT = 5000;
-app.use('/', taskRouter)
-//
 
 
-// get all tasks
+
+// get tasks 
 taskRouter.get("/:id", (req, res) => {
     const id = req.params.id;
-    const data = readFileSync('../tasks/task'+id+'.JSON', 
-            {encoding:'utf8', flag:'r'});
-            res.send(data);
+    //   const data = fs.readFileSync('../tasks/task' + id + '.json',
+    //       { encoding: 'utf8', flag: 'r' });
+    res.send(id);
 });
-    
+module.exports = taskRouter;
 
 
 //
-app.listen(PORT);
-//
-/** 
- * 
+/**
+ *
  try {
         fs.readdir("../tasks", (err, files) => {
             files.forEach(file => {
