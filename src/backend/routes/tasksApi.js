@@ -1,5 +1,7 @@
+const { response } = require("express");
 const express = require("express");
 const fs = require("fs");
+const fsPromises = require("fs/promises");
 const taskRouter = express.Router();
 taskRouter.use(express.json());
 /** note to self: express.json()
@@ -7,7 +9,7 @@ taskRouter.use(express.json());
  * not to be confused with JSON.parse that takes a JSON and formats it into a JS object
  */
 
- const DB_ADDRESS = "../tasksDB"
+const DB_ADDRESS = "../tasksDB"
 
 // get task list by Id
 taskRouter.get("/:id", getTaskListWithId);
@@ -26,6 +28,32 @@ function getTaskListWithId(req, res) {
         });
     }
 }
+
+taskRouter.get("/", getAllTaskLists);
+function getAllTaskLists(req, res) {
+    const dirPromise = fsPromises.readdir(DB_ADDRESS);
+    dirPromise.then((allDbItems) => {
+        if (allDbItems.length === 0) {
+            res.status(404).send("you have no objects");
+        } else {
+            const arr = [];
+            const promiseArr = [];
+            for (const dbItem of allDbItems) {
+                promiseArr.push(fsPromises.readFile(`${DB_ADDRESS}/${dbItem}`));
+            }
+            /**
+             * this is a learning attempt to use  promise.all and fs/promise.
+             */
+            Promise.all(promiseArr)
+                .then(responses => responses.forEach(
+                    response => arr.push(JSON.parse(response))))
+                .then(() => res.status(200).send(arr))
+                .catch(error => res.status(500).send("error" + error))
+                }
+            });
+        }
+
+
 module.exports = taskRouter;
 
 
@@ -47,7 +75,7 @@ module.exports = taskRouter;
  * fs.writeFile - override written file
  * fs.appendFile - add to the end of an all ready written file
  *
- * 
+ *
  * ---delete---
  * fs.unlink
  *
