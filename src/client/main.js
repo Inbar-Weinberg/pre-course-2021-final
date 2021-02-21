@@ -25,6 +25,9 @@ let counterWrapper = document.getElementById("counter");
 
 let listWrapper = document.getElementById("list-wrapper");
 listWrapper.addEventListener("click", markedTask, { once: false });
+listWrapper.addEventListener("click", editTask, { once: false });
+
+
 
 let dateButton = document.getElementById("sort-date");
 dateButton.addEventListener("click", sortDate(), { once: false });
@@ -97,7 +100,7 @@ function insertTaskToHtml(task) {
     date = dateToSQL(date);
     let marked = task.marked;
 
-    let containerTemplate = document.querySelector("[data-template]");
+    let containerTemplate = document.querySelector("[data-template = task-template]");
     let todoContainer = containerTemplate.cloneNode(true);
     todoContainer.removeAttribute("data-template");
     todoContainer.classList.add("todo-container");
@@ -260,7 +263,7 @@ function sortDate() {
             (a, b) => new Date(b.date) - new Date(a.date);
         taskList.sort(sortFunction);
         clearListFromHtml()
-        insertTaskListToHtml();
+        insertTaskListToHtml(taskList);
     }
 }
 function sortPriority() {
@@ -272,7 +275,7 @@ function sortPriority() {
             (a, b) => b.priority - a.priority;
         taskList.sort(sortFunction);
         clearListFromHtml()
-        insertTaskListToHtml();
+        insertTaskListToHtml(taskList);
     }
 }
 function dateToSQL(date) {
@@ -331,7 +334,56 @@ function removeAllMarked(event) {
     updateCounter(taskList);
 }
 
+function editTask(event) {
+    listWrapper.removeEventListener("dblclick", editTask, { once: false });
 
+    let target = event.target.closest("DIV");
+    if (target.className != "todo-text") {
+        listWrapper.addEventListener("click", editTask, { once: false });
+        return;
+    }
+
+
+    // cursor turn to editor
+    const editorTemplate = document.querySelector("[data-template = task-editor-template]");
+    let editor = editorTemplate.cloneNode(true);
+    editor.removeAttribute("data-template");
+    const taskText = target.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
+
+    target.innerText = "\n";
+    target.append(editor);
+    editor.value = taskText;
+    editor.setAttribute('placeholder', taskText);
+    editor.focus();
+
+    body.addEventListener("click", exitEditor, { once: false });
+    body.addEventListener("keypress", exitEditor, { once: false });
+
+    function exitEditor(event) {
+        if (event.target.closest("DIV") === target && event.type === 'click')
+            return;
+        if (event.keyCode !== 13 && event.type === 'keypress')
+            return;
+        if (editor.value === "") // don't allow to save an empty task
+            editor.value = taskText;
+
+        if (event.target.closest("DIV") != target || event.keyCode === 13) {//
+            const allTaskWrappers = document.querySelectorAll(".todo-text")
+            for (let i = 0; i < allTaskWrappers.length; i++) {
+                if (allTaskWrappers[i] === target) {
+                    taskList[i].text = editor.value;
+                    break;
+                }
+            }
+            uploadJson(taskList);
+            target.innerText = editor.value;
+            editor.remove;
+            body.removeEventListener("click", exitEditor, { once: true });
+            body.removeEventListener("keypress", exitEditor, { once: true });
+        }
+        listWrapper.addEventListener("click", editTask, { once: false });
+    }
+}
 
 
 
