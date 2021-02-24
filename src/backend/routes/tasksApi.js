@@ -9,8 +9,12 @@ taskRouter.use(express.json());
  * not to be confused with JSON.parse that takes a JSON and formats it into a JS object
  */
 
-const DB_ADDRESS = "./backend/tasksDB";
-// address must be in relevance to package.json
+const DB_ADDRESS = "./tasksDB";
+/**
+ * address must be in relevance to package.json 
+ * the ./ refer to the last address called by the script
+ * in this case the start script calls ./routes file. 
+ */ 
 const DATA_FORMAT = ".json";
 
 // get task list by Id
