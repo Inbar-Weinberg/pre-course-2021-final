@@ -5,8 +5,7 @@
   "main": "api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./backend/routes/tasksApi",
-    "dev": "nodemon ./backend/routes/"
+    "start": "node ./backend/routes/"
   },
   "repository": {
     "type": "git",
@@ -18,8 +17,5 @@
     "-": "0.0.1",
     "express": "^4.17.1",
     "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.7"
   }
 }
