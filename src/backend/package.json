@@ -4,7 +4,8 @@
   "description": "this is the back end for TodoList app",
   "main": "api.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
+    "test:watch": "jest --watch",
     "start": "node ./routes/"
   },
   "repository": {
@@ -15,7 +16,11 @@
   "license": "ISC",
   "dependencies": {
     "-": "0.0.1",
-    "express": "^4.17.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.1.3"
   }
 }
